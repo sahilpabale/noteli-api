@@ -1,5 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 
+// loading controllers
+import authorize from "./controllers/auth/authorize";
+import token from "./controllers/auth/token";
+import user from "./controllers/auth/user";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -10,5 +15,11 @@ router.get("/", (req, res) => {
     isError: false,
   });
 });
+
+router.post("/authorize", authorize);
+
+router.post("/token", token);
+
+router.post("/user", user);
 
 export default router;
