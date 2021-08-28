@@ -15,6 +15,7 @@ if (process.env.NODE_ENV !== "production") {
 
 import express, { Application, Request, Response } from "express";
 import router from "./router";
+import connectDB from "./db";
 
 const app: Application = express();
 
@@ -32,8 +33,9 @@ app.get("/", (req, res) => {
 
 app.use("/api", router);
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log("server started!");
+app.listen(process.env.PORT || 8080, async () => {
+  await connectDB();
+  console.log("server started");
 });
 
 export default config;

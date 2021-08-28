@@ -7,9 +7,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
+    "typeRoots": ["./src/typings"],
     "target": "es2017"
   },
-
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import config from "../..";
+import addUser from "./utils/addUser";
+import checkUser from "./utils/checkUser";
 
 const user = async (req: Request, res: Response) => {
   try {
@@ -16,7 +18,21 @@ const user = async (req: Request, res: Response) => {
           },
         }
       );
-      res.status(200).json(response.data);
+
+      const { sub, email, name } = response.data;
+
+      if (!(await checkUser(email))) {
+        const userSignedUp = await addUser(email, name, sub);
+        if (userSignedUp) {
+          res.status(200).json(response.data);
+        } else {
+          res.status(400).json({
+            err: "no token",
+          });
+        }
+      } else {
+        res.status(200).json(response.data);
+      }
     } else {
       res.status(400).json({
         err: "no token",
