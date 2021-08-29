@@ -7,7 +7,7 @@ const createNote = async (req: Request, res: Response) => {
       const { title, content } = req.body;
       if (!(title == undefined || content == undefined)) {
         // algo to count noteId
-        Note.find()
+        Note.find({ userId: req.user._id })
           .select("noteId")
           .exec()
           .then(async (data) => {
@@ -31,7 +31,7 @@ const createNote = async (req: Request, res: Response) => {
 
             res.status(200).json({
               code: 200,
-              message: "Note created successfully",
+              message: "Note created successfully!",
               data: { noteId: noteId + 1 },
               isError: false,
             });
@@ -39,17 +39,17 @@ const createNote = async (req: Request, res: Response) => {
           .catch((err) => {
             res.status(400).json({
               code: 400,
-              message: "Failed to create note :(",
+              message: "Failed to create your note!",
               data: null,
-              isError: true,
+              noteError: true,
             });
           });
       } else {
         res.status(400).json({
           code: 400,
-          message: "Note is empty",
+          message: "Note is empty to be created!",
           data: null,
-          noteError: true,
+          parseError: true,
         });
       }
     } else {
@@ -63,7 +63,7 @@ const createNote = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(404).json({
       code: 404,
-      message: "Something's wrong on our side",
+      message: "Something's wrong on our side!",
       data: null,
       serverError: true,
     });

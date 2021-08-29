@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const readNote = async (req: Request, res: Response) => {
   try {
-    if (req.user) {
+    if (req.user != null) {
       const id = parseInt(req.params.id);
 
       if (id == null) {

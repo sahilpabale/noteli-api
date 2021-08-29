@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 
 // loading controllers
 import authorize from "./controllers/auth/authorize";
-import logout from "./controllers/auth/logout";
 import token from "./controllers/auth/token";
 import user from "./controllers/auth/user";
 import createNote from "./controllers/notes/create";
@@ -31,9 +30,6 @@ router.post("/token", token);
 
 // Retreive user's info based on token
 router.post("/user", user);
-
-// logs out the user
-router.get("/logout", logout);
 
 // Bearer token in headers required!
 

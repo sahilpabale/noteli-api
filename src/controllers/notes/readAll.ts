@@ -9,19 +9,28 @@ const readAllNotes = async (req: Request, res: Response) => {
         .select("noteId title content")
         .exec()
         .then((doc) => {
-          res.status(200).json({
-            code: 200,
-            message: "Successfully grabbed your notes!",
-            data: doc,
-            isError: false,
-          });
+          if (doc.length == 0) {
+            res.status(404).json({
+              code: 404,
+              message: "You don't have any notes!",
+              data: null,
+              notesError: true,
+            });
+          } else {
+            res.status(200).json({
+              code: 200,
+              message: "Successfully grabbed your notes!",
+              data: doc,
+              isError: false,
+            });
+          }
         })
         .catch((err) => {
           res.status(404).json({
             code: 404,
             message: "Something's wrong on our side",
             data: null,
-            isError: true,
+            serverError: true,
           });
         });
     } else {
@@ -29,7 +38,7 @@ const readAllNotes = async (req: Request, res: Response) => {
         code: 401,
         message: "Not authorized",
         data: null,
-        isError: true,
+        authError: true,
       });
     }
   } catch (error) {
@@ -37,7 +46,7 @@ const readAllNotes = async (req: Request, res: Response) => {
       code: 404,
       message: "Something's wrong on our side",
       data: null,
-      isError: true,
+      serverError: true,
     });
   }
 };

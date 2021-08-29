@@ -12,7 +12,7 @@ const deleteNote = async (req: Request, res: Response) => {
           if (doc == null) {
             res.status(400).json({
               code: 400,
-              message: "Note doesn't exists!",
+              message: "Note doesn't exist!",
               data: null,
               idError: true,
             });
