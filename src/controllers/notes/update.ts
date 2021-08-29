@@ -13,11 +13,11 @@ const updateNote = async (req: Request, res: Response) => {
         .exec()
         .then((doc) => {
           if (!doc.acknowledged) {
-            res.status(200).json({
-              code: 200,
-              message: "Nothing to update",
+            res.status(400).json({
+              code: 400,
+              message: "Nothing to update!",
               data: null,
-              isError: false,
+              updateError: true,
             });
           } else {
             if (doc.matchedCount == 1) {
@@ -30,9 +30,9 @@ const updateNote = async (req: Request, res: Response) => {
             } else {
               res.status(400).json({
                 code: 400,
-                message: "Failed to parse your note.",
+                message: "Please provide a valid ID!",
                 data: null,
-                isError: true,
+                idError: true,
               });
             }
           }
@@ -43,14 +43,14 @@ const updateNote = async (req: Request, res: Response) => {
               code: 400,
               message: "Failed to parse your note.",
               data: null,
-              isError: true,
+              noteError: true,
             });
           } else {
             res.status(404).json({
               code: 404,
               message: "Something's wrong on our side.",
               data: null,
-              isError: true,
+              serverError: true,
             });
           }
         });
@@ -59,15 +59,15 @@ const updateNote = async (req: Request, res: Response) => {
         code: 401,
         message: "Not authorized",
         data: null,
-        isError: true,
+        authError: true,
       });
     }
   } catch (error) {
     res.status(404).json({
       code: 404,
-      message: "Something's wrong on our side",
+      message: "Something's wrong on our side.",
       data: null,
-      isError: true,
+      serverError: true,
     });
   }
 };

@@ -35,13 +35,22 @@ const readNote = async (req: Request, res: Response) => {
               });
             }
           })
-          .catch((err) => {
-            res.status(404).json({
-              code: 404,
-              message: "Something's wrong on our side",
-              data: null,
-              serverError: true,
-            });
+          .catch((error) => {
+            if (error.name == "CastError") {
+              res.status(404).json({
+                code: 404,
+                message: "Please provide a valid ID!",
+                data: null,
+                parseError: true,
+              });
+            } else {
+              res.status(404).json({
+                code: 404,
+                message: "Something's wrong on our side",
+                data: null,
+                serverError: true,
+              });
+            }
           });
       }
     } else {
